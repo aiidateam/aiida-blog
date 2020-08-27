@@ -6,8 +6,11 @@ Browsing a curated database
 
 A common source of problems for new users of AiiDA often arises when they receive an exported database and want to get an idea of its content but don't know how.
 
-In the following section we will use the database from "Two-dimensional materials from high-throughput computational exfoliation of experimentally known compounds" to show some examples of useful queries that can help with this.
+In the following section we will use the database from `"Two-dimensional materials from high-throughput computational exfoliation of experimentally known compounds" <https://archive.materialscloud.org/record/2017.0008/v3>`_ to show some examples of useful queries that can help with this.
 This will hopefully give you some guidance on how to apply and extend queries for your needs
+
+* Virtual Machine: `QM 20.03.0 <https://github.com/marvel-nccr/quantum-mobile/releases/tag/20.03.0>`_
+* Databases (direct download link): `2D materials <https://archive.materialscloud.org/record/file?filename=two_dimensional_database.aiida&file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&record_id=18>`_
 
 Using the discover section
 ..........................
@@ -18,58 +21,6 @@ If one was interested in, say, the band structure properties, one could use the 
 
 For our purposes now we will just take note of the UUID of this node and see how to check the information in a local database.
 We invite the reader to browse the discovery and explore sections for this database on their own to get an idea of the features offered by the Materials Cloud interface.
-
-
-Setting up the work environment
-...............................
-
-If you already have an AiiDA setup you want to use to follow this instructions, all you need to do is download the 2D database from `its archive entry <https://archive.materialscloud.org/record/2017.0008/v3/>`_ (or `here <https://archive.materialscloud.org/record/file?file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&filename=two_dimensional_database.aiida&record_id=18>`_ is a direct download link) and run ``verdi import <filename>``.
-We would anyways recommend that you create a new profile (see instructions below) so that the data does not get mixed up with the one from your production environment.
-
-If you don't already have AiiDA installed or you prefer to use a more conteinerized environment, you can download the `Quantum Mobile <https://www.materialscloud.org/work/quantum-mobile>`_, which is an already setted up virtual machine.
-You can click on the download button and follow the instructions in the github releases section.
-To get the database into your virtual machine by either setting up a `shared folder <https://www.virtualbox.org/manual/UserManual.html#sharedfolders>`_ or by directly downloading the file there by running:
-
-.. code-block:: bash
-
-    wget 'https://archive.materialscloud.org/record/file?file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&filename=two_dimensional_database.aiida&record_id=18' -O two_dimensional_database.aiida
-
-Once you have your virtual machine up and running and before importing the database, you will need to set up a user profile.
-We will do so by running the ``quicksetup`` command, and AiiDA will automatically create the new clean database to be used by it.
-In the case below we chose to name the profile `querytest`, but you can use whatever name you prefer (just be consistent afterwards).
-If you have not done so already, make sure you have loaded the correct working environment before going on with this procedure (see the first command line below).
-
-.. code-block:: bash
-
-    max@qmobile:~$ workon aiida
-    (aiida) max@qmobile:~$ verdi quicksetup 
-        Info: enter "?" for help
-        Info: enter "!" to ignore the default and set no value
-        Profile name [quicksetup]: querytest
-        User email [aiida@localhost]: 
-        First name [Max]: 
-        Last name [Scientist]: 
-        Institution [Quantum Mobile]: 
-        Warning: Found host 'localhost' but dropping '-h localhost' option for psql since this may cause psql to switch to password-based authentication.
-        Success: created new profile `querytest`.
-        Info: migrating the database.
-        Operations to perform:
-            Apply all migrations: auth, contenttypes, db
-        Running migrations:
-            Applying contenttypes.0001_initial... OK
-            Applying contenttypes.0002_remove_content_type_name... OK
-            Applying auth.0001_initial... OK
-            Applying auth.0002_alter_permission_name_max_length... OK
-            Applying auth.0003_alter_user_email_max_length... OK
-            (...)
-            Applying db.0042_prepare_schema_reset... OK
-            Applying db.0043_default_link_label... OK
-        Success: database migration completed.
-    (aiida) max@qmobile:~$ 
-
-Now switch from your current profile to this newly created one by using ``verdi profile setdefault querytest``, import the 2D materials database with ``verdi import two_dimensional_database.aiida``, and now we are ready to begin.
-
-.. figure:: ../images/provenance-1.png
 
 Manually browsing the database
 ..............................
@@ -163,6 +114,7 @@ Not that this has to be executed outside of the verdi shell.
 
 The result should look something like this:
 
+.. figure:: ../images/provenance-1.png
 
 Systematic querying of the database
 ...................................
