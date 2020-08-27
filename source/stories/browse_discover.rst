@@ -7,10 +7,16 @@ Browsing a curated database
 A common source of problems for new users of AiiDA often arises when they receive an exported database and want to get an idea of its content but don't know how.
 
 In the following section we will use the database from `"Two-dimensional materials from high-throughput computational exfoliation of experimentally known compounds" <https://archive.materialscloud.org/record/2017.0008/v3>`_ to show some examples of useful queries that can help with this.
-This will hopefully give you some guidance on how to apply and extend queries for your needs
+This will hopefully give you some guidance on how to apply and extend queries for your own needs.
 
-* Virtual Machine: `QM 20.03.0 <https://github.com/marvel-nccr/quantum-mobile/releases/tag/20.03.0>`_
-* Databases (direct download link): `2D materials <https://archive.materialscloud.org/record/file?filename=two_dimensional_database.aiida&file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&record_id=18>`_
+This story was designed using `Quantum Mobile 20.03.0 <https://github.com/marvel-nccr/quantum-mobile/releases/tag/20.03.0>`_.
+You will also need to download and import the `2D materials database <https://archive.materialscloud.org/record/file?filename=two_dimensional_database.aiida&file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&record_id=18>`_.
+This can be easily done by running the following commands in your aiida environment:
+
+.. code-block:: bash
+
+    (aiida) max@qmobile:~$ wget 'https://archive.materialscloud.org/record/file?file_id=d1f3ac29-e3b0-400b-8109-8455be66160b&filename=two_dimensional_database.aiida&record_id=18' -O 2D_database.aiida
+    (aiida) max@qmobile:~$ verdi import 2D_database.aiida
 
 Using the discover section
 ..........................
