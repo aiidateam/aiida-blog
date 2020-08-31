@@ -74,7 +74,7 @@ We start by performing some browsing using the AiiDA API to explore the properti
 
 .. code-block:: Python
 
-    In [6]: bands_node = calculation_node.inputs.bands_node
+    In [6]: bands_node = calculation_node.inputs.bands
     In [7]: bands_node
     Out[7]: <BandsData: uuid: 7fbb633d-a224-46b7-84b1-74a3ceca81e0 (pk: 4689)>
 
@@ -105,7 +105,7 @@ We did it mostly for convenience, but all of these steps can just be concatenate
 The advantage of the long string above is that after every dot you can use tab completion, and therefore (once you get used to it) it becomes very quick to browse advanced provenance graphs in the verdi shell.
 
 One more thing one might want to do is to check if there is a better way to distinguish the ``CalcFunctionNode`` that I got at ``Out[5]`` above (stored in ``calculation_node = bandgap_node.creator``).
-Let uss check its attributes:
+Let us check its attributes:
 
 .. code-block:: Python
 
