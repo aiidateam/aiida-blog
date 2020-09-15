@@ -140,8 +140,7 @@ If you are not familiar with the ``QueryBuilder``, we refer to the `official Aii
 
 .. code-block:: Python
 
-    from aiida.orm 
-    import QueryBuilder, Dict, CalculationNode, BandsData, StructureData
+    from aiida.orm import QueryBuilder, Dict, CalculationNode, BandsData, StructureData
     
     # Create a new query builder object
     query = QueryBuilder()
