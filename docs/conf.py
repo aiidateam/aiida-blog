@@ -79,7 +79,7 @@ def start_aiida(*args):
     import subprocess
     subprocess.check_call(["reentry", "scan"])
     try:
-        print(subprocess.check_output(["locale-gen",  "en_US.UTF-8"])
+        print(subprocess.check_output(["locale-gen",  "en_US.UTF-8"]))
     except:
         pass
     print(subprocess.check_output(["locale"]))
