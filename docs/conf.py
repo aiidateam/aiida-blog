@@ -79,6 +79,7 @@ def start_aiida(*args):
     import subprocess
     subprocess.check_call(["reentry", "scan"])
     print(subprocess.check_output(["locale"]))
+    print(subprocess.check_output(["locale", "-a"]))
     # os.environ["LANG"] = "en_US.UTF-8"
     # os.environ["LC_ALL"] = "en_US.UTF-8"
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
