@@ -3,3 +3,5 @@ sphinx-book-theme==0.0.39b1
 sphinx-panels~=0.5.2
 ablog
 sphinx-autobuild
+aiida-core==1.4.2
+pgtest

@@ -18,13 +18,13 @@ extensions = ["myst_nb", "sphinx_panels", "ablog", "sphinx.ext.intersphinx"]
 
 myst_admonition_enable = True
 myst_html_img_enable = True
-jupyter_execute_notebooks = "off"
+jupyter_execute_notebooks = "auto"
 
 blog_path = "stories/index"
 blog_title = "Stories"
 blog_post_pattern = ["stories/*.md", "stories/*.ipynb"]
 post_redirect_refresh = 1
-post_auto_excerpt = 2
+post_auto_excerpt = 3
 post_auto_image = 1
 fontawesome_included = True
 html_sidebars = {
@@ -72,3 +72,23 @@ html_theme_options = {
     "use_edit_page_button": True,
 }
 panels_add_bootstrap_css = False
+
+
+def start_aiida(*args):
+    from reentry import manager
+    from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
+    from aiida.common.utils import Capturing
+    manager.scan()
+    with Capturing():  # capture output of AiiDA DB setup
+        _GLOBAL_TEST_MANAGER.use_temporary_profile(backend=BACKEND_DJANGO, pgtest=None)
+    from aiida.manage.configuration import settings
+    import os
+    os.environ["AIIDA_PATH"] = settings.AIIDA_CONFIG_FOLDER
+
+def end_aiida(*args):
+    from aiida.manage.tests import _GLOBAL_TEST_MANAGER
+    _GLOBAL_TEST_MANAGER.destroy_all()
+
+def setup(app):
+    app.connect('builder-inited', start_aiida)
+    app.connect('build-finished', end_aiida)
