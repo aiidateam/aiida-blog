@@ -75,14 +75,14 @@ panels_add_bootstrap_css = False
 
 
 def start_aiida(*args):
-    from reentry import manager
+    import os
+    import subprocess
+    subprocess.check_call(["reentry", "scan"])
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
     from aiida.common.utils import Capturing
-    manager.scan()
     with Capturing():  # capture output of AiiDA DB setup
         _GLOBAL_TEST_MANAGER.use_temporary_profile(backend=BACKEND_DJANGO, pgtest=None)
     from aiida.manage.configuration import settings
-    import os
     os.environ["AIIDA_PATH"] = settings.AIIDA_CONFIG_FOLDER
 
 def end_aiida(*args):
