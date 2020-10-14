@@ -65,11 +65,14 @@ html_theme = "sphinx_book_theme"
 html_theme_options = {
     "home_page_in_toc": True,
     "repository_url": "https://github.com/aiidateam/aiida-blog",
-    "repository_branch": "develop",
+    "repository_branch": "chris-branch",
     "use_repository_button": True,
     "use_issues_button": True,
     "path_to_docs": "docs",
     "use_edit_page_button": True,
+    "launch_buttons": {
+        "binderhub_url": "https://https://mybinder.org"
+    },
 }
 panels_add_bootstrap_css = False
 
@@ -83,7 +86,7 @@ def start_aiida(*args):
     from aiida.manage.external import postgres
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
     from aiida.common.utils import Capturing
-    print(os.environ)
+    # this is required on READTHEDOCS, since the docker container only contains C.UTF-8
     patch = mock.patch.object(
         postgres,
         "_CREATE_DB_COMMAND",
