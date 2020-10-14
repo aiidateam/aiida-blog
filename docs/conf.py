@@ -5,7 +5,9 @@
 
 project = 'aiida-singledocs'
 copyright = '2020, Francisco Ramirez'
-author = 'Francisco Ramirez, Chris Sewell'
+project = "aiida-singledocs"
+copyright = "2020, Francisco Ramirez"
+author = "Francisco Ramirez, Chris Sewell"
 
 
 version = "0.0.1"
@@ -28,7 +30,7 @@ post_auto_excerpt = 3
 post_auto_image = 1
 fontawesome_included = True
 html_sidebars = {
-    "stories/index": ['tagcloud.html', 'archives.html', 'sbt-sidebar-nav.html'],
+    "stories/index": ["tagcloud.html", "archives.html", "sbt-sidebar-nav.html"],
     "stories/*": [
         "sidebar-search-bs.html",
         "postcard.html",
@@ -38,7 +40,7 @@ html_sidebars = {
         "archives.html",
         "sbt-sidebar-nav.html",
         "sbt-sidebar-footer.html",
-    ]
+    ],
 }
 
 intersphinx_mapping = {
@@ -77,10 +79,21 @@ panels_add_bootstrap_css = False
 def start_aiida(*args):
     import os
     import subprocess
+
     subprocess.check_call(["reentry", "scan"])
     try:
-        print(subprocess.check_output(["locale-gen",  "en_US.UTF-8"]))
+        subprocess.check_output(
+            [
+                "sed",
+                "-i",
+                "-e",
+                "s/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/",
+                "/etc/locale.gen",
+            ]
+        )
+        print(subprocess.check_output(["locale-gen"]))
     except:
+        print("failed")
         pass
     print(subprocess.check_output(["locale"]))
     print(subprocess.check_output(["locale", "-a"]))
@@ -88,15 +101,20 @@ def start_aiida(*args):
     # os.environ["LC_ALL"] = "en_US.UTF-8"
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
     from aiida.common.utils import Capturing
+
     with Capturing():  # capture output of AiiDA DB setup
         _GLOBAL_TEST_MANAGER.use_temporary_profile(backend=BACKEND_DJANGO, pgtest=None)
     from aiida.manage.configuration import settings
+
     os.environ["AIIDA_PATH"] = settings.AIIDA_CONFIG_FOLDER
+
 
 def end_aiida(*args):
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER
+
     _GLOBAL_TEST_MANAGER.destroy_all()
 
+
 def setup(app):
-    app.connect('builder-inited', start_aiida)
-    app.connect('build-finished', end_aiida)
+    app.connect("builder-inited", start_aiida)
+    app.connect("build-finished", end_aiida)
