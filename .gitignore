@@ -1,2 +1,4 @@
+.tox
 .vscode
+_build
 build
