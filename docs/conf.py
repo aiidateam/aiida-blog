@@ -24,7 +24,7 @@ blog_path = "stories/index"
 blog_title = "Stories"
 blog_post_pattern = ["stories/*.md", "stories/*.ipynb"]
 post_redirect_refresh = 1
-post_auto_excerpt = 3
+post_auto_excerpt = 2
 post_auto_image = 1
 fontawesome_included = True
 html_sidebars = {
@@ -75,34 +75,28 @@ panels_add_bootstrap_css = False
 
 
 def start_aiida(*args):
+    from unittest import mock
     import os
     import subprocess
 
     subprocess.check_call(["reentry", "scan"])
-    try:
-        print(subprocess.check_output(["apt-get", "-y", "install", "locales"]))
-        subprocess.check_output(
-            [
-                "sed",
-                "-i",
-                "-e",
-                "s/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/",
-                "/etc/locale.gen",
-            ]
-        )
-        print(subprocess.check_output(["locale-gen"]))
-    except Exception as err:
-        print(f"failed: {err}")
-        pass
-    print(subprocess.check_output(["locale"]))
-    print(subprocess.check_output(["locale", "-a"]))
-    # os.environ["LANG"] = "en_US.UTF-8"
-    # os.environ["LC_ALL"] = "en_US.UTF-8"
+    from aiida.manage.external import postgres
     from aiida.manage.tests import _GLOBAL_TEST_MANAGER, BACKEND_DJANGO
     from aiida.common.utils import Capturing
+    print(os.environ)
+    patch = mock.patch.object(
+        postgres,
+        "_CREATE_DB_COMMAND",
+        (
+            'CREATE DATABASE "{}" OWNER "{}" ENCODING \'UTF8\' '
+            f"LC_COLLATE='{os.environ['LANG']}' LC_CTYPE='{os.environ['LANG']}' "
+            "TEMPLATE=template0"
+        ),
+    )
 
     with Capturing():  # capture output of AiiDA DB setup
-        _GLOBAL_TEST_MANAGER.use_temporary_profile(backend=BACKEND_DJANGO, pgtest=None)
+        with patch:
+            _GLOBAL_TEST_MANAGER.use_temporary_profile(backend=BACKEND_DJANGO, pgtest=None)
     from aiida.manage.configuration import settings
 
     os.environ["AIIDA_PATH"] = settings.AIIDA_CONFIG_FOLDER
