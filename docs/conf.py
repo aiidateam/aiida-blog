@@ -3,8 +3,6 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'aiida-singledocs'
-copyright = '2020, Francisco Ramirez'
 project = "aiida-singledocs"
 copyright = "2020, Francisco Ramirez"
 author = "Francisco Ramirez, Chris Sewell"
@@ -82,6 +80,7 @@ def start_aiida(*args):
 
     subprocess.check_call(["reentry", "scan"])
     try:
+        print(subprocess.check_output(["apt-get", "-y", "install", "locales"]))
         subprocess.check_output(
             [
                 "sed",
@@ -92,8 +91,8 @@ def start_aiida(*args):
             ]
         )
         print(subprocess.check_output(["locale-gen"]))
-    except:
-        print("failed")
+    except Exception as err:
+        print(f"failed: {err}")
         pass
     print(subprocess.check_output(["locale"]))
     print(subprocess.check_output(["locale", "-a"]))
